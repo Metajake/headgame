@@ -3,6 +3,7 @@
   "verson": "0.0.1",
   "description": "WebGL Multiplayer Game about healing and communication.",
   "license": "UNLICENSED",
+  "repository": "https://github.com/Metajake/headgame",
   "dependencies": {
     "express": "^4.15.3",
     "phaser": "^2.6.2",
