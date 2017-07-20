@@ -1,0 +1,11 @@
+{
+  "name": "headgame",
+  "verson": "0.0.1",
+  "description": "WebGL Multiplayer Game about healing and communication.",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.15.3",
+    "phaser": "^2.6.2",
+    "socket.io": "^2.0.3"
+  }
+}
