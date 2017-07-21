@@ -9,7 +9,7 @@ var playerClass = document.getElementById("player-class");
 newPlayerForm.addEventListener('submit', function(event){
   event.preventDefault();
   Player.name = playerName.value;
-  Player.class = playerClass.value;
+  Player.playerClass = playerClass.value;
   newPlayerContainer.parentNode.removeChild(newPlayerContainer);
   Client.askNewPlayer();
 });
@@ -34,3 +34,7 @@ Client.socket.on('allplayers', function(data){
 Client.socket.on('remove', function(id){
   Game.removePlayer(id);
 });
+
+Client.socket.on('updateUI', function(playerClass){
+  PlayerObj.updateUI(playerClass);
+})

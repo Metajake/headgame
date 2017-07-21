@@ -21,13 +21,18 @@ server.listen(8081, function(){
   cl('Listening on ' + server.address().port);
 })
 
+clients = [];
+
 io.on('connection', function(socket){
+  clients.push(socket.id);
   socket.on('newplayer', function(data){
-    cl(data)
     socket.player = {
-      id: server.lastPlayerID++
+      id: server.lastPlayerID++,
+      name: data.name,
+      playerClass: data.playerClass
     }
     socket.emit('allplayers', getAllPlayers());
+    socket.emit('updateUI', socket.player.playerClass);
     socket.broadcast.emit('newplayer', socket.player); // send message from client to all other clients
 
     socket.on('disconnect', function(){
@@ -45,5 +50,6 @@ function getAllPlayers(){
       players.push(player);
     }
   });
+  cl(players);
   return players;
 }
