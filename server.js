@@ -16,3 +16,29 @@ server.lastPlayerID = 0;
 server.listen(8081, function(){
   console.log('Listening on ' + server.address().port);
 })
+
+io.on('connection', function(socket){
+  socket.on('newplayer', function(){
+    socket.player = {
+      id: server.lastPlayerID++
+    }
+    socket.emit('allplayers', getAllPlayers());
+    socket.broadcast.emit('newplayer', socket.player); // send message from client to all other clients
+
+    socket.on('disconnect', function(){
+      io.emit('remove', socket.player.id);
+    })
+  })
+})
+
+
+function getAllPlayers(){
+  var players = [];
+  Object.keys(io.sockets.connected).forEach(function(socketID){
+    var player = io.sockets.connected[socketID].player;
+    if(player){
+      players.push(player);
+    }
+  });
+  return players;
+}
