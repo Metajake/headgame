@@ -1,10 +1,15 @@
+function cl(toLog){
+  console.log(toLog);
+};
+
 var Game = {
   preload: function(){
 
   },
   create: function(){
     Game.playerMap = {};
-    Client.askNewPlayer();
+    game.inputEnabled = true;
+    // game.onInput...
   },
   init: function(){
     game.stage.disableVisabilityChange = true;

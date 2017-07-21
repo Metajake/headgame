@@ -1,8 +1,23 @@
 var Client = {};
+var Player = {};
+var newPlayerContainer = document.getElementById("new-player");
+var newPlayerForm = document.getElementById("player-info");
+var playerName = document.getElementById("player-name");
+var playerClass = document.getElementById("player-class");
+
+//New Player Form Submit, Connect, Remove Form
+newPlayerForm.addEventListener('submit', function(event){
+  event.preventDefault();
+  Player.name = playerName.value;
+  Player.class = playerClass.value;
+  newPlayerContainer.parentNode.removeChild(newPlayerContainer);
+  Client.askNewPlayer();
+});
+
 Client.socket = io.connect();
 
 Client.askNewPlayer = function(){
-  Client.socket.emit('newplayer');
+  Client.socket.emit('newplayer', Player);
 }
 
 Client.socket.on('newplayer', function(data){

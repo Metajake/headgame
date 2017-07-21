@@ -1,0 +1,8 @@
+#new-player{
+  position:absolute;
+  padding:20px;
+  background-color: rgba(150,150,150,0.5);
+  top:50px;
+  left:50px;
+  text-align: center;
+}

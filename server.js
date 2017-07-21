@@ -1,3 +1,7 @@
+function cl(toLog){
+  console.log(toLog);
+}
+
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
@@ -14,11 +18,12 @@ app.get('/', function(req, res){
 server.lastPlayerID = 0;
 
 server.listen(8081, function(){
-  console.log('Listening on ' + server.address().port);
+  cl('Listening on ' + server.address().port);
 })
 
 io.on('connection', function(socket){
-  socket.on('newplayer', function(){
+  socket.on('newplayer', function(data){
+    cl(data)
     socket.player = {
       id: server.lastPlayerID++
     }
