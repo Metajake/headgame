@@ -22,6 +22,7 @@ server.listen(8081, function(){
 })
 
 clients = [];
+var fighter;
 
 io.on('connection', function(socket){
   clients.push(socket.id);
@@ -31,6 +32,9 @@ io.on('connection', function(socket){
       name: data.name,
       playerClass: data.playerClass
     }
+    if(data.playerClass == 'fighter'){
+      fighter = socket.id;
+    }
     socket.emit('allplayers', getAllPlayers());
     socket.emit('updateUI', socket.player.playerClass);
     socket.broadcast.emit('newplayer', socket.player); // send message from client to all other clients
@@ -38,7 +42,10 @@ io.on('connection', function(socket){
     socket.on('disconnect', function(){
       io.emit('remove', socket.player.id);
     })
-  })
+    socket.on('healFighter', function(data){
+      io.sockets.connected[fighter].emit("heal", data);
+    });
+  });
 })
 
 

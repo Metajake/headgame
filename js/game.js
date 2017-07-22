@@ -2,6 +2,8 @@ function cl(toLog){
   console.log(toLog);
 };
 
+var Client = {};
+
 var Game = {
   init: function(){
     game.stage.disableVisabilityChange = true;
@@ -11,15 +13,14 @@ var Game = {
   },
   create: function(){
     Game.playerMap = {};
-    game.inputEnabled = true;
-    // game.onInput...
+    game.time.advancedTiming = true;
   },
   update: function(){
 
   },
   render: function(){
-    // console.log("rendering");
-    game.debug.text("Game" + PlayerObj.playerClass, 32, 32);
+    game.debug.text(game.time.fps, 16, 16, "#00ff00");
+    game.debug.text("Game" + PlayerObj.playerClass + PlayerObj.hitPoints, 16, 32);
   },
   addNewPlayer: function(id){
     Game.playerMap[id] = id;
@@ -31,6 +32,7 @@ var Game = {
 };
 
 var PlayerObj = {
+  hitPoints: 0,
   updateUI: function(playerClass){
     PlayerObj.playerClass = playerClass;
     if(playerClass == "heal-slut"){
@@ -44,7 +46,12 @@ var PlayerObj = {
       bmd.ctx.fill();
 
       // use the bitmap data as the texture for the sprite
-      var sprite = game.add.sprite(200, 200, bmd);
+      var sprite = game.add.sprite(100, 100, bmd);
+      sprite.inputEnabled = true;
+      sprite.events.onInputDown.add(PlayerObj.healFighter, this)
     }
+  },
+  healFighter: function(){
+    Client.healFighter(1);
   }
 }

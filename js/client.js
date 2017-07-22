@@ -1,23 +1,14 @@
-var Client = {};
+// var Client = {};
 var Player = {};
-var newPlayerContainer = document.getElementById("new-player");
-var newPlayerForm = document.getElementById("player-info");
-var playerName = document.getElementById("player-name");
-var playerClass = document.getElementById("player-class");
-
-//New Player Form Submit, Connect, Remove Form
-newPlayerForm.addEventListener('submit', function(event){
-  event.preventDefault();
-  Player.name = playerName.value;
-  Player.playerClass = playerClass.value;
-  newPlayerContainer.parentNode.removeChild(newPlayerContainer);
-  Client.askNewPlayer();
-});
 
 Client.socket = io.connect();
 
 Client.askNewPlayer = function(){
   Client.socket.emit('newplayer', Player);
+}
+
+Client.healFighter = function(hitPoints){
+  Client.socket.emit('healFighter', hitPoints);
 }
 
 Client.socket.on('newplayer', function(data){
@@ -37,4 +28,8 @@ Client.socket.on('remove', function(id){
 
 Client.socket.on('updateUI', function(playerClass){
   PlayerObj.updateUI(playerClass);
+})
+
+Client.socket.on('heal', function(hitPoints){
+  PlayerObj.hitPoints ++;
 })
