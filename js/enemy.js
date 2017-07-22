@@ -8,4 +8,7 @@ function Enemy(x, y){
     this.hitPoints -= damage;
     this.HPDisplay.setText(this.hitPoints);
   };
+  this.attackPlayer = function(){
+    Client.attackPlayer(5);
+  }
 };

@@ -70,6 +70,11 @@ io.on('connection', function(socket){
     socket.on('attackEnemy', function(data){
       io.emit('attackEnemy', data);
     })
+
+    // On Enemy attack
+    socket.on('attackPlayer', function(data){
+      io.sockets.connected[fighter].emit('attackPlayer', data);
+    })
   });
 })
 

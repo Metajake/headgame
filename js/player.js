@@ -19,6 +19,6 @@ var PlayerObj = {
     Client.healFighter(1);
   },
   attack: function(){
-    Client.attack(1);
+    Client.attackEnemy(1);
   }
 }
