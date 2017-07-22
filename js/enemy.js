@@ -8,6 +8,7 @@ function Enemy(x, y){
     this.hitPoints -= damage;
     this.HPDisplay.setText(this.hitPoints);
   };
+  this.attackTimer = game.time.events.loop(Phaser.Timer.SECOND*2, function(){this.attackPlayer()}, this);
   this.attackPlayer = function(){
     Client.attackPlayer(5);
   }

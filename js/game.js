@@ -18,7 +18,6 @@ var Game = {
     game.time.advancedTiming = true;
 
     enemy = new Enemy(100, 300);
-    game.time.events.loop(Phaser.Timer.SECOND*2, enemy.attackPlayer, this);
   },
   update: function(){
 

@@ -57,6 +57,5 @@ Client.socket.on('attackEnemy', function(damage){
 
 // To Client: Attack Player
 Client.socket.on('attackPlayer', function(damage){
-  cl("I've been hit!");
-  PlayerObj.hitPoints -= damage;
+  PlayerObj.takeDamage(damage);
 })

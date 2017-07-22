@@ -20,5 +20,9 @@ var PlayerObj = {
   },
   attack: function(){
     Client.attackEnemy(1);
+  },
+  takeDamage: function(damage){
+    cl("I've been hit!");
+    this.hitPoints -= damage;
   }
 }
