@@ -1,22 +1,22 @@
-// var Client = {};
-var Player = {};
 
+// Define Client, Client Socket connection to Server
+Client = {};
 Client.socket = io.connect();
 
 Client.askNewPlayer = function(){
-  Client.socket.emit('newplayer', Player);
+  Client.socket.emit('newPlayer', PlayerObj);
 }
 
 Client.healFighter = function(hitPoints){
   Client.socket.emit('healFighter', hitPoints);
 }
 
-Client.socket.on('newplayer', function(data){
-  Game.addNewPlayer(data.id);
+Client.socket.on('newPlayer', function(data){
+  Game.addNewPlayer(data);
 });
 
 Client.socket.on('allplayers', function(data){
-  console.log(data);
+  cl(data);
   for(var i = 0;i < data.length;i++){
     Game.addNewPlayer(data[i].id);
   }

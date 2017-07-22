@@ -1,12 +1,14 @@
-function cl(toLog){
-  console.log(toLog);
-};
+// OLD!!!!! var Client = {};
 
-var Client = {};
+var enemy;
 
 var Game = {
   init: function(){
+    // Keep Game AnimationRequestFrame running when "tabbed" away
     game.stage.disableVisabilityChange = true;
+
+    // Add New Client Player to Server
+    Client.askNewPlayer();
   },
   preload: function(){
 
@@ -14,6 +16,8 @@ var Game = {
   create: function(){
     Game.playerMap = {};
     game.time.advancedTiming = true;
+
+    enemy = new Enemy(100, 200);
   },
   update: function(){
 
@@ -22,36 +26,13 @@ var Game = {
     game.debug.text(game.time.fps, 16, 16, "#00ff00");
     game.debug.text("Game" + PlayerObj.playerClass + PlayerObj.hitPoints, 16, 32);
   },
-  addNewPlayer: function(id){
-    Game.playerMap[id] = id;
+  addNewPlayer: function(player){
+    Game.playerMap[player.id] = player.id;
+    // cl("adding New player"+ player.hitPoints)
+    PlayerObj.hitPoints = player.hitPoints;
   },
   removePlayer: function(id){
     Game.playerMap[id] = null;
     delete Game.playerMap[id];
   },
 };
-
-var PlayerObj = {
-  hitPoints: 0,
-  updateUI: function(playerClass){
-    PlayerObj.playerClass = playerClass;
-    if(playerClass == "heal-slut"){
-      // create a new bitmap data object
-      var bmd = game.add.bitmapData(128,128);
-
-      // draw to the canvas context like normal
-      bmd.ctx.beginPath();
-      bmd.ctx.rect(0,0,128,128);
-      bmd.ctx.fillStyle = '#ff0000';
-      bmd.ctx.fill();
-
-      // use the bitmap data as the texture for the sprite
-      var sprite = game.add.sprite(100, 100, bmd);
-      sprite.inputEnabled = true;
-      sprite.events.onInputDown.add(PlayerObj.healFighter, this)
-    }
-  },
-  healFighter: function(){
-    Client.healFighter(1);
-  }
-}
