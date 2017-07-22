@@ -11,6 +11,10 @@ Client.healFighter = function(hitPoints){
   Client.socket.emit('healFighter', hitPoints);
 }
 
+Client.attack = function(damage){
+  Client.socket.emit('attackEnemy', damage);
+}
+
 Client.socket.on('newPlayer', function(data){
   Game.addNewPlayer(data);
 });
@@ -32,4 +36,8 @@ Client.socket.on('updateUI', function(playerClass){
 
 Client.socket.on('heal', function(hitPoints){
   PlayerObj.hitPoints ++;
+})
+
+Client.socket.on('attackEnemy', function(damage){
+  enemy.damage(damage);
 })

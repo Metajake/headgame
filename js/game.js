@@ -17,7 +17,7 @@ var Game = {
     Game.playerMap = {};
     game.time.advancedTiming = true;
 
-    enemy = new Enemy(100, 200);
+    enemy = new Enemy(100, 300);
   },
   update: function(){
 

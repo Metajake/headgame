@@ -56,12 +56,20 @@ io.on('connection', function(socket){
     // Update Player UI, depending on Player Class
     socket.emit('updateUI', socket.player.playerClass);
 
+    // On Player Disconnect
     socket.on('disconnect', function(){
       io.emit('remove', socket.player.id);
     })
+
+    // On Healer Heal
     socket.on('healFighter', function(data){
       io.sockets.connected[fighter].emit("heal", data);
     });
+
+    // On Fighter attack
+    socket.on('attackEnemy', function(data){
+      io.emit('attackEnemy', data);
+    })
   });
 })
 
