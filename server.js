@@ -6,6 +6,8 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 
+app.set('port', (process.env.PORT || 5000));
+
 // Define Server "Listener"
 var io = require('socket.io').listen(server);
 
@@ -23,9 +25,13 @@ app.get('/', function(req, res){
 server.lastPlayerID = 0;
 
 // Begin Server "Listening"
-server.listen(8081, function(){
-  cl('Listening on ' + server.address().port);
-})
+// server.listen(8081, function(){
+//   cl('Listening on ' + server.address().port);
+// })
+
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
 
 // Define Game Specific Elements
 var fighter;
