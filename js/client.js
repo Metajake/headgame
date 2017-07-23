@@ -22,6 +22,11 @@ Client.attackPlayer = function(damage){
   Client.socket.emit('attackPlayer', damage)
 }
 
+// To Server: Fighter Dead
+Client.playerDead = function(){
+  Client.socket.emit('playerDead');
+}
+
 // To Client: Add New Player
 Client.socket.on('newPlayer', function(data){
   Game.addNewPlayer(data);
@@ -58,4 +63,9 @@ Client.socket.on('attackEnemy', function(damage){
 // To Client: Attack Player
 Client.socket.on('attackPlayer', function(damage){
   PlayerObj.takeDamage(damage);
+})
+
+// To Client: Player Dead
+Client.socket.on('playerDead', function(){
+  game.state.start("GameOver");
 })

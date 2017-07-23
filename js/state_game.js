@@ -19,7 +19,7 @@ var Game = {
   },
   update: function(){
     if(PlayerObj.hitPoints < 1){
-      game.state.start("GameOver");
+      Client.playerDead();
     }
   },
   render: function(){

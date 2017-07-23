@@ -69,11 +69,16 @@ io.on('connection', function(socket){
     // On Fighter attack
     socket.on('attackEnemy', function(data){
       io.emit('attackEnemy', data);
-    })
+    });
 
     // On Enemy attack
     socket.on('attackPlayer', function(data){
       io.sockets.connected[fighter].emit('attackPlayer', data);
+    });
+
+    // On Player Dead
+    socket.on('playerDead', function(){
+      io.emit('playerDead');
     })
   });
 })
