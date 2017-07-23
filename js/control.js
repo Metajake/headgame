@@ -1,6 +1,7 @@
 //Define Phaser Game, Game State
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game');
 game.state.add('Game',Game);
+game.state.add('GameOver',GameOver);
 
 //Focus on Name Input
 document.getElementById("player-name").focus();
@@ -21,7 +22,4 @@ newPlayerForm.addEventListener('submit', function(event){
 
   // Start Game State
   game.state.start('Game');
-
-  // OLD!!!!!! Add New Client Player to Server
-  // Client.askNewPlayer();
 });

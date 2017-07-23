@@ -1,5 +1,3 @@
-// OLD!!!!! var Client = {};
-
 var enemy;
 
 var Game = {
@@ -20,15 +18,16 @@ var Game = {
     enemy = new Enemy(100, 300);
   },
   update: function(){
-
+    if(PlayerObj.hitPoints < 1){
+      game.state.start("GameOver");
+    }
   },
   render: function(){
     game.debug.text(game.time.fps, 16, 16, "#00ff00");
-    game.debug.text("Game" + PlayerObj.playerClass + PlayerObj.hitPoints, 16, 32);
+    game.debug.text("Game " + PlayerObj.playerClass + PlayerObj.hitPoints, 16, 32);
   },
   addNewPlayer: function(player){
     Game.playerMap[player.id] = player.id;
-    // cl("adding New player"+ player.hitPoints)
     PlayerObj.hitPoints = player.hitPoints;
   },
   removePlayer: function(id){

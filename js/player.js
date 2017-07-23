@@ -1,7 +1,7 @@
 var PlayerObj = {
   hitPoints: 40,
   updateUI: function(playerClass){
-    // cl("updating UI");
+    // Define Player Class
     PlayerObj.playerClass = playerClass;
     if(playerClass == "heal-slut"){
       // Make "Heal Button" Sprite
@@ -12,17 +12,16 @@ var PlayerObj = {
       // Make "Heal Button" Sprite
       sprite = BMDSprite("#0000ff", "circle", game.width/2, game.height/2, game.width, game.height);
       sprite.inputEnabled = true;
-      sprite.events.onInputDown.add(PlayerObj.attack, this)
+      sprite.events.onInputDown.add(PlayerObj.attackEnemy, this)
     }
   },
   healFighter: function(){
     Client.healFighter(1);
   },
-  attack: function(){
-    Client.attackEnemy(1);
+  attackEnemy: function(){
+    game.rnd.integerInRange(0,1) ? Client.attackEnemy(1) : (function(){cl("false")})();
   },
   takeDamage: function(damage){
-    cl("I've been hit!");
     this.hitPoints -= damage;
   }
 }

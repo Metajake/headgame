@@ -3,8 +3,8 @@
   <head>
     <title>Head Game</title>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" /><!-- Scales DOM UI up on mobile, Does not zoom in -->
+    <meta name="apple-mobile-web-app-capable" content="yes"><!-- Full screen when Saved to Homepage (iPhone) -->
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <script src="/socket.io/socket.io.js" type="text/javascript"></script>
     <script src="js/phaser.min.js" type="text/javascript"></script>
@@ -24,7 +24,8 @@
     <div id="game"></div>
   </body>
   <script src="js/global.js" type="text/javascript"></script>
-  <script src="js/game.js" type="text/javascript"></script>
+  <script src="js/state_game.js" type="text/javascript"></script>
+  <script src="js/state_game_over.js" type="text/javascript"></script>
   <script src="js/control.js" type="text/javascript"></script>
   <script src="js/player.js" type="text/javascript"></script>
   <script src="js/enemy.js" type="text/javascript"></script>
