@@ -50,7 +50,7 @@ io.on('connection', function(socket){
     // Broadcast All Players
     socket.emit('allplayers', getAllPlayers());
 
-   // Updating New Player
+    // Updating New Player
     socket.emit('newPlayer', socket.player);
 
     // Update Player UI, depending on Player Class
@@ -73,7 +73,9 @@ io.on('connection', function(socket){
 
     // On Enemy attack
     socket.on('attackPlayer', function(data){
-      io.sockets.connected[fighter].emit('attackPlayer', data);
+      if(socket.player.playerClass == 'fighter'){
+        io.sockets.connected[fighter].emit('attackPlayer', data);
+      }
     });
 
     // On Player Dead
@@ -92,6 +94,6 @@ function getAllPlayers(){
       players.push(player);
     }
   });
-  cl(players);
+  // cl(players);
   return players;
 }
