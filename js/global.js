@@ -1,3 +1,7 @@
+GAME = {
+  playerMap : {}
+}
+
 // Shorthand Console Log
 function cl(toLog){
   console.log(toLog);;

@@ -19,51 +19,72 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 })
 
-// Player ID default value
-server.lastPlayerID = 0;
-
 // Begin Server "Listening"
 server.listen(8081, function(){
   cl('Listening on ' + server.address().port);
 })
 
+// Player ID default value
+server.lastPlayerID = 0;
+
 // Define Game Specific Elements
 var fighter;
+var GAME = {
+  playerMap : {}
+};
 
 // On Client Connection
 io.on('connection', function(socket){
   // On Client.NewPlayer
   socket.on('newPlayer', function(data){
+    // Define Player Object Properties
     socket.player = {
-      id: server.lastPlayerID++,
+      id: socket.id,
       name: data.name,
       playerClass: data.playerClass
     }
+
+    // Define Conditional Player Properties
     if(data.playerClass == 'fighter'){
       socket.player.hitPoints = 40;
-      // Set Fighter ID (for healer reference)
+      // Define Fighter ID (for healer reference)
       fighter = socket.id;
     }else{
       socket.player.hitPoints = 20;
     }
 
-    // Broadcast All Players
-    socket.emit('allplayers', getAllPlayers());
+    // Add New Player to Player Map
+    GAME.playerMap[socket.id] = socket.player;
 
-    // Updating New Player
+    // Update Client Player Map
+    io.emit('allplayers', GAME.playerMap);
+
+    // Create New Player
     socket.emit('newPlayer', socket.player);
 
-    // Update Player UI, depending on Player Class
-    socket.emit('updateUI', socket.player.playerClass);
+    // If Players Ready, Start Game
+    checkPlayersReady();
 
     // On Player Disconnect
     socket.on('disconnect', function(){
-      io.emit('remove', socket.player.id);
+      // If Fighter Disconnects, Remove Fighter ID Key
+      if(GAME.playerMap[socket.id].playerClass == "fighter"){
+        fighter = undefined;
+      }
+
+      // Remove Disconnected Player from Player Map
+      GAME.playerMap[socket.id] = null;
+      delete GAME.playerMap[socket.id];
+
+      // Update Client Player Map
+      io.emit('allplayers', GAME.playerMap);
     })
 
     // On Healer Heal
     socket.on('healFighter', function(data){
-      io.sockets.connected[fighter].emit("heal", data);
+      if(fighter){
+        io.sockets.connected[fighter].emit("heal", data);
+      }
     });
 
     // On Fighter attack
@@ -73,7 +94,7 @@ io.on('connection', function(socket){
 
     // On Enemy attack
     socket.on('attackPlayer', function(data){
-      if(socket.player.playerClass == 'fighter'){
+      if(fighter){
         io.sockets.connected[fighter].emit('attackPlayer', data);
       }
     });
@@ -85,15 +106,9 @@ io.on('connection', function(socket){
   });
 })
 
-// Get, Log, Return All Players
-function getAllPlayers(){
-  var players = [];
-  Object.keys(io.sockets.connected).forEach(function(socketID){
-    var player = io.sockets.connected[socketID].player;
-    if(player){
-      players.push(player);
-    }
-  });
-  // cl(players);
-  return players;
+// If 2 Players, Start Game
+function checkPlayersReady(){
+  if(Object.keys(GAME.playerMap).length == 2){
+    io.emit('startGame');
+  }
 }

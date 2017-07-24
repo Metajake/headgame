@@ -2,6 +2,7 @@
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'game');
 game.state.add('Game',Game);
 game.state.add('GameOver',GameOver);
+game.state.add('ClassSelect',ClassSelect);
 
 //Focus on Name Input
 document.getElementById("player-name").focus();
@@ -21,5 +22,5 @@ newPlayerForm.addEventListener('submit', function(event){
   newPlayerContainer.parentNode.removeChild(newPlayerContainer);
 
   // Start Game State
-  game.state.start('Game');
+  game.state.start('ClassSelect');
 });

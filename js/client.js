@@ -29,27 +29,17 @@ Client.playerDead = function(){
 
 // To Client: Add New Player
 Client.socket.on('newPlayer', function(data){
-  Game.addNewPlayer(data);
+  ClassSelect.addNewPlayer(data); // Plans to make this state agnostic
 });
 
-// To Client: List All Players
+// To Client: Mirror Game Player Map to Server Player Map
 Client.socket.on('allplayers', function(data){
-  cl(data);
-  for(var i = 0;i < data.length;i++){
-    Game.addNewPlayer(data[i].id);
-  }
+  GAME.playerMap = data;
 })
 
-// To Client: Remove Player
-Client.socket.on('remove', function(id){
-  if(Game.playerMap){
-    Game.removePlayer(id);
-  }
-});
-
-// To Client: Update Player UI
-Client.socket.on('updateUI', function(playerClass){
-  PlayerObj.updateUI(playerClass);
+// To Client: Start Game
+Client.socket.on('startGame', function(){
+  game.state.start('Game');
 })
 
 // To Client: Heal Fighter
@@ -67,7 +57,7 @@ Client.socket.on('attackPlayer', function(damage){
   PlayerObj.takeDamage(damage);
 })
 
-// To Client: Player Dead
+// To Client: Player Dead, Game Over
 Client.socket.on('playerDead', function(){
   game.state.start("GameOver");
 })
