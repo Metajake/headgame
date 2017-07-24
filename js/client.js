@@ -42,7 +42,9 @@ Client.socket.on('allplayers', function(data){
 
 // To Client: Remove Player
 Client.socket.on('remove', function(id){
-  Game.removePlayer(id);
+  if(Game.playerMap){
+    Game.removePlayer(id);
+  }
 });
 
 // To Client: Update Player UI
