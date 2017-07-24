@@ -16,6 +16,7 @@ var ClassSelect = {
     game.debug.text(game.state.current, 16, 16);
   },
   addNewPlayer: function(player){
+    
     // Define Player Properties
     PlayerObj.id = player.id;
     PlayerObj.hitPoints = player.hitPoints;

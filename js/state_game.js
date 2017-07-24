@@ -21,6 +21,11 @@ var Game = {
     if(PlayerObj.hitPoints < 1){
       Client.playerDead();
     }
+
+    // Game Over if Enemy Hit Points < 1
+    if(enemy.hitPoints < 1){
+      game.state.start("GameOver");
+    }
   },
   render: function(){
     game.debug.text(game.time.fps, 16, 16, "#00ff00");
