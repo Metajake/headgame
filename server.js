@@ -20,7 +20,7 @@ app.get('/', function(req, res){
 })
 
 // Begin Server "Listening"
-server.listen(8081, function(){
+server.listen(process.env.PORT || 8081, function(){
   cl('Listening on ' + server.address().port);
 })
 
