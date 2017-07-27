@@ -1,5 +1,8 @@
 var ClassSelect = {
   init: function(){
+    // Keep Game AnimationRequestFrame running when "tabbed" away
+    game.stage.disableVisabilityChange = true;
+
     // Add New Client Player to Server
     Client.askNewPlayer();
   },
@@ -16,10 +19,7 @@ var ClassSelect = {
     game.debug.text(game.state.current, 16, 16);
   },
   addNewPlayer: function(player){
-    
     // Define Player Properties
-    PlayerObj.id = player.id;
-    PlayerObj.hitPoints = player.hitPoints;
-    PlayerObj.playerClass = player.playerClass;
+    playerObj = new PlayerObj(player.id, player.hitPoints, player.playerClass, player.x, player.y);
   },
 }

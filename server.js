@@ -24,13 +24,14 @@ server.listen(process.env.PORT || 8081, function(){
   cl('Listening on ' + server.address().port);
 })
 
-// Player ID default value
-server.lastPlayerID = 0;
+// Enemy ID default value
+var lastEnemyID = 0;
 
 // Define Game Specific Elements
 var fighter;
 var GAME = {
-  playerMap : {}
+  playerMap : {},
+  enemyMap : {}
 };
 
 // On Client Connection
@@ -41,16 +42,15 @@ io.on('connection', function(socket){
     socket.player = {
       id: socket.id,
       name: data.name,
-      playerClass: data.playerClass
+      playerClass: data.playerClass,
+      hitPoints: data.hitPoints,
+      x: data.x,
+      y: data.y
     }
 
-    // Define Conditional Player Properties
+    // Define Fighter ID (for healer reference)
     if(data.playerClass == 'fighter'){
-      socket.player.hitPoints = 40;
-      // Define Fighter ID (for healer reference)
       fighter = socket.id;
-    }else{
-      socket.player.hitPoints = 20;
     }
 
     // Add New Player to Player Map
@@ -63,7 +63,7 @@ io.on('connection', function(socket){
     socket.emit('newPlayer', socket.player);
 
     // If Players Ready, Start Game
-    checkPlayersReady();
+    checkPlayersReady(io);
 
     // On Player Disconnect
     socket.on('disconnect', function(){
@@ -78,6 +78,14 @@ io.on('connection', function(socket){
 
       // Update Client Player Map
       io.emit('allplayers', GAME.playerMap);
+
+      // Remove All Enemies if All Players Disconnect
+      if(Object.keys(GAME.playerMap).length == 0){
+        GAME.enemyMap = {};
+      }
+
+      // To Client: Disconnect Player
+      socket.emit('disconnectPlayer');
     })
 
     // On Healer Heal
@@ -89,6 +97,7 @@ io.on('connection', function(socket){
 
     // On Fighter attack
     socket.on('attackEnemy', function(data){
+      GAME.enemyMap[0].hitPoints -= data;
       io.emit('attackEnemy', data);
     });
 
@@ -103,12 +112,39 @@ io.on('connection', function(socket){
     socket.on('playerDead', function(){
       io.emit('playerDead');
     })
-  });
-})
+
+    // If Server Enemies Exist Create them on Client
+    socket.on('askIfEnemy', function(data){
+      if(Object.keys(GAME.enemyMap).length){
+        Object.keys(GAME.enemyMap).forEach(function(enemy){
+          socket.emit('newEnemy', GAME.enemyMap[enemy]);
+        });
+      }else{
+        enemyID = lastEnemyID++;
+        enemy = {
+          id: enemyID,
+          hitPoints: data.hitPoints,
+          x: data.x,
+          y: data.y,
+          landscapeX: data.landscapeX,
+          landscapeY: data.landscapeY
+        }
+        // Update Game Enemy Map
+        GAME.enemyMap[enemyID] = enemy;
+
+        // Update Client Enemy Map
+        io.emit('allEnemies', GAME.enemyMap);
+
+        // Create New Enemy on Client
+        io.emit('newEnemy', enemy);
+      }
+    });
+  }); // END Socket On 'newPlayer'
+});
 
 // If 2 Players, Start Game
-function checkPlayersReady(){
+function checkPlayersReady(connection){
   if(Object.keys(GAME.playerMap).length == 2){
-    io.emit('startGame');
+    connection.emit('startGame');
   }
 }
