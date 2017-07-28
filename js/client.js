@@ -65,8 +65,9 @@ Client.init = function(){
   })
 
   // To Client: Attack Enemy
-  Client.socket.on('attackEnemy', function(damage){
-    GAME.enemyMap[0].damage(damage);
+  Client.socket.on('attackEnemy', function(hitPoints){
+    cl(GAME.enemyMap[0]);
+    GAME.enemyMap[0].damage(hitPoints);
   })
 
   // To Client: Attack Player

@@ -98,7 +98,7 @@ io.on('connection', function(socket){
     // On Fighter attack
     socket.on('attackEnemy', function(data){
       GAME.enemyMap[0].hitPoints -= data;
-      io.emit('attackEnemy', data);
+      io.emit('attackEnemy', GAME.enemyMap[0].hitPoints);
     });
 
     // On Enemy attack

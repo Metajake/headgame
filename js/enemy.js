@@ -9,8 +9,8 @@ function Enemy(hitPoints, x, y, landscapeX, landscapeY){
   this.HPDisplay = game.add.text(0,0 , this.hitPoints, { font: "20px uni0553", fill: "#FFFFFF", align: "left" });
   this.sprite.addChild(this.HPDisplay);
   this.attackTimer = game.time.events.loop(Phaser.Timer.SECOND*2, function(){this.attackPlayer()}, this);
-  this.damage = function(damage){
-    this.hitPoints -= damage;
+  this.damage = function(newHP){
+    this.hitPoints = newHP;
     this.HPDisplay.setText(this.hitPoints);
   };
   this.attackPlayer = function(){
