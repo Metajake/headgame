@@ -17,7 +17,6 @@ var Game = {
 
     // Create Player Update
     playerObj.updateUI();
-
   },
   update: function(){
     // Game Over If Player Hit Points < 1

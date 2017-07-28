@@ -47,6 +47,38 @@ table {
 	border-spacing: 0;
 }
 
+@font-face {
+	font-family: "uni0563";
+	src: url('/assets/font/uni0563.eot');
+	src: url('/assets/font/uni0563.ttf') format("truetype"),
+			 url('/assets/font/uni0563.woff') format('woff');
+}
+
+@font-face {
+	font-family: "uni0553";
+	src: url('/assets/font/uni0553.eot');
+	src: url('/assets/font/uni0553.ttf') format("truetype"),
+			 url('/assets/font/uni0553.woff') format('woff');
+}
+
+.uni0563 {
+	font-family: "uni0563", sans-serif;
+}
+
+.uni0553 {
+	font-family: "uni0553", sans-serif;
+}
+
+#new-player{
+  position:absolute;
+  padding:20px;
+  background-color: rgba(150,150,150,0.5);
+  top:20px;
+  left:20px;
+	color:white;
+  text-align: center;
+}
+
 /*----------------------------------------------*/
 /* OPTION 1. FORCE PORTRAIT */
 /*@media (orientation: landscape) {
@@ -68,11 +100,3 @@ table {
 		left: 100%;
   }
 }*/
-#new-player{
-  position:absolute;
-  padding:20px;
-  background-color: rgba(150,150,150,0.5);
-  top:50px;
-  left:50px;
-  text-align: center;
-}
